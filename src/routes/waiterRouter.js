@@ -13,6 +13,9 @@ router.post("/create", async (req, res) => {
         .status(400)
         .json({ success: false, message: "name and phoneNumber are required" });
     }
+    const isWaiterExist = await Waiter.findOne({
+      waiter_Phonenumber: phoneNumber,
+    });
     const newWaiter = new Waiter({
       waiter_name: name,
       waiter_Phonenumber: phoneNumber,
@@ -42,10 +45,14 @@ router.patch("/:waiter_id/:order_id", async (req, res) => {
       }
     );
     if (!updatedOrder) {
-      return res.status(404).json({ success: false, message: "Order not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: "Order not found" });
     }
-    if(updatedOrder?.isComplete === false){
-      return res.status(400).json({ success: false, message: "Order is not complete from chef" });
+    if (updatedOrder?.isComplete === false) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Order is not complete from chef" });
     }
     res
       .status(200)
@@ -66,5 +73,27 @@ router.get("/allwaiters", async (req, res) => {
     // .json({ success: false, message: "Server error", data: allChefs });
   }
 });
+
+router.post("/login", async (req, res) => {
+  try {
+    const { phoneNumber } = req.body;
+
+    const isExist = await Waiter.findOne({ waiter_Phonenumber: phoneNumber });
+    if (!isExist) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Waiter not found" });
+    }
+    res.status(200).json({ success: true, data: isExist });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: true });
+  }
+});
+
+
+
+
+
 
 export default router;

@@ -23,6 +23,13 @@ app.use("/chef",chefRouter);
 app.use("/meal", mealsRouter);
 app.use("/order", orderRouter);
 app.use("/waiter", waiterRouter);
+app.get("/", (req, res) => {
+  try {
+    res.status(200).json({ success: true, message: "API run successfully" });
+  } catch (error) {
+    console.error(error);
+  }
+});
 
 mongoose
   .connect(
