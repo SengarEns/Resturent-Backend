@@ -41,16 +41,22 @@ router.post("/new", NewCostumerValidation, async (req, res) => {
   }
 });
 
-router.get("/", AlreadyCostumerValidation, async (req, res) => {
-  const {email, phone} = req.body
+router.get("/login", async (req, res) => {
+  const { phone } = req.body;
   try {
-    const findUser = await Customer.findOne({customer_phone_no: phone, customer_email: email})
-    if(!findUser){
-      return res.status(404).json({success: false, message:"customer not found"})
+    const findUser = await Customer.findOne({
+      customer_phone_no: phone,
+    });
+    if (!findUser) {
+      return res
+        .status(404)
+        .json({ success: false, message: "customer not found" });
     }
-    res.status(200).json({success: true, message: 'Customer found', data: findUser})
+    res
+      .status(200)
+      .json({ success: true, message: "Customer found", data: findUser });
   } catch (error) {
-    console.error(error)
+    console.error(error);
   }
 });
 
