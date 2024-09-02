@@ -26,28 +26,26 @@ router.post("/new-chef", async (req, res) => {
   }
 });
 
-router.get("/:chefId", async (req, res) => {
+router.get("/find/:chefId", async (req, res) => {
   try {
-    
     const { chefId } = req.params;
     //   console.log(chefId);
-    const fetchChef = await Chef.findById(chefId)
+    const fetchChef = await Chef.findById(chefId);
   } catch (error) {
     console.log(error);
     res.status(500).json({ success: false, message: "Server error" });
   }
 });
 
-
-router.get("/allchef", async (req,res) =>{
-  try{
+router.get("/allchef", async (req, res) => {
+  try {
     const allChefs = await Chef.find({});
     res.json({ success: true, data: allChefs });
-  }catch(error){
+  } catch (error) {
     console.log(error);
-    res.status(500).json({ success: false, message: "Server error", data:allChefs });
- 
+    res.status(500);
+    // .json({ success: false, message: "Server error", data: allChefs });
   }
-})
+});
 
 export default router;

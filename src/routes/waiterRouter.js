@@ -56,4 +56,15 @@ router.patch("/:waiter_id/:order_id", async (req, res) => {
   }
 });
 
+router.get("/allwaiters", async (req, res) => {
+  try {
+    const allwaiters = await Waiter.find({});
+    res.json({ success: true, data: allwaiters });
+  } catch (error) {
+    console.log(error);
+    res.status(500);
+    // .json({ success: false, message: "Server error", data: allChefs });
+  }
+});
+
 export default router;

@@ -18,7 +18,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Mount the router at /api
 app.use("/api", loginRouter);
-app.use("/custumer", customerRouter);
+app.use("/customer", customerRouter);
 app.use("/chef",chefRouter);
 app.use("/meal", mealsRouter);
 app.use("/order", orderRouter);
