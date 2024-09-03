@@ -41,7 +41,7 @@ router.post("/new", NewCostumerValidation, async (req, res) => {
   }
 });
 
-router.get("/login", async (req, res) => {
+router.post("/login", async (req, res) => {
   const { phone } = req.body;
   try {
     const findUser = await Customer.findOne({
