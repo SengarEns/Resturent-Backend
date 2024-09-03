@@ -9,7 +9,9 @@ export const NewCostumerValidation = (req, res, next) => {
   const { error } = schema.validate(req.body);
 
   if (error) {
-    return res.status(404).json({ message: "Bad request", error });
+    return res
+      .status(200)
+      .json({ success: false, message: "Validation error", error });
   }
   next();
 };

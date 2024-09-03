@@ -11,7 +11,7 @@ router.post("/new", NewCostumerValidation, async (req, res) => {
   const { name, phone, email } = req.body;
   if (!name || !phone || !email) {
     return res
-      .status(400)
+      .status(200)
       .json({ success: false, message: "All fields are required" });
   }
   try {
@@ -23,7 +23,11 @@ router.post("/new", NewCostumerValidation, async (req, res) => {
     if (isExist) {
       return res
         .status(200)
-        .json({ success: true, massage: "customer already exists" });
+        .json({
+          success: true,
+          massage: "customer already exists",
+          data: isExist,
+        });
     }
     const newCostumer = new Customer({
       customer_name: name,
@@ -37,7 +41,7 @@ router.post("/new", NewCostumerValidation, async (req, res) => {
       data: newCostumer,
     });
   } catch (error) {
-    console.log(error);
+    res.status(200).json({ success: false, message: "error", error: error });
   }
 });
 
@@ -49,14 +53,14 @@ router.post("/login", async (req, res) => {
     });
     if (!findUser) {
       return res
-        .status(404)
+        .status(200)
         .json({ success: false, message: "customer not found" });
     }
     res
       .status(200)
       .json({ success: true, message: "Customer found", data: findUser });
   } catch (error) {
-    console.error(error);
+    res.status(200).json({ success: false, message: "error", error: error });
   }
 });
 
