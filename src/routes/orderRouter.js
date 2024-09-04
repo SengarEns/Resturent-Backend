@@ -50,9 +50,7 @@ router.post("/:chefId/orderlist", async (req, res) => {
     }
 
     const orders = await Orders.find();
-    
 
-    
     const allOrders = [];
 
     for (let i = 0; i < orders.length; i++) {
@@ -63,7 +61,7 @@ router.post("/:chefId/orderlist", async (req, res) => {
       success: true,
       message: " all Order fetched successfully",
       data: allOrders,
-      orders:orders
+      orders: orders,
     });
   } catch (error) {}
 });
@@ -95,12 +93,12 @@ router.post("/:chefId/orderlist/:mealId", async (req, res) => {
 
     res
       .status(200)
-      .json({ success: true, message: "Order updated successfully.", });
+      .json({ success: true, message: "Order updated successfully." });
   } catch (error) {
     console.error(error);
     res.status(500).json({ success: false, message: "Server Error" });
   }
 });
 
-
 export default router;
+31;

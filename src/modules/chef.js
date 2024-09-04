@@ -5,6 +5,10 @@ const chefSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  chef_phone: {
+    type: Number,
+    required: true,
+  },
 });
 
 const Chef = mongoose.model("Chef", chefSchema);
