@@ -41,7 +41,10 @@ router.post("/:customerId/all-meals/:customer_mealId", async (req, res) => {
 router.post("/:chefId/orderlist", async (req, res) => {
   try {
     const { chefId } = req.params;
+    console.log("chefId", chefId);
+
     const isChefExist = await Chef.findById(chefId);
+    console.log("isChefExist", isChefExist);
 
     if (!isChefExist) {
       return res
@@ -49,22 +52,28 @@ router.post("/:chefId/orderlist", async (req, res) => {
         .json({ success: false, message: "Chef does not exist" });
     }
 
-    const orders = await Orders.find();
+    const orders = await Orders.find({ chefId: chefId }); // Filter orders by chefId
+    console.log("orders", orders);
 
-    const allOrders = [];
+    const allOrders = await Promise.all(
+      orders.map(async (order) => {
+        const meal = await Meals.findById(order.customer_mealId);
+        return meal;
+      })
+    );
 
-    for (let i = 0; i < orders.length; i++) {
-      const meal = await Meals.findById(orders[i].customer_mealId);
-      allOrders.push(meal);
-    }
     res.status(200).json({
       success: true,
-      message: " all Order fetched successfully",
+      message: "All orders fetched successfully",
       data: allOrders,
       orders: orders,
     });
-  } catch (error) {}
+  } catch (error) {
+    console.error("Error fetching orders:", error);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
 });
+
 
 // confirm order
 router.post("/:chefId/orderlist/:mealId", async (req, res) => {

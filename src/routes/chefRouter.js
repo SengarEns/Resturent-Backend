@@ -42,7 +42,6 @@ router.post("/cheflogin", async (req, res) => {
         .json({ success: false, message: "Please enter a phone number" });
     }
 
-    console.log("jkl");
     const chef = await Chef.findOne({ chef_phone: phone });
 
     if (!chef) {

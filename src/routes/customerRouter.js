@@ -8,26 +8,24 @@ import {
 const router = express.Router();
 
 router.post("/new", NewCostumerValidation, async (req, res) => {
-  const { name, phone, email } = req.body;
-  if (!name || !phone || !email) {
-    return res
-      .status(200)
-      .json({ success: false, message: "All fields are required" });
-  }
   try {
+    const { name, phone, email } = req.body;
+    if (!name || !phone || !email) {
+      return res
+        .status(200)
+        .json({ success: false, message: "All fields are required" });
+    }
     const isExist = await Customer.findOne({
       customer_name: name,
       customer_email: email,
       customer_phone_no: phone,
     });
     if (isExist) {
-      return res
-        .status(200)
-        .json({
-          success: true,
-          massage: "customer already exists",
-          data: isExist,
-        });
+      return res.status(200).json({
+        success: true,
+        massage: "customer already exists",
+        data: isExist,
+      });
     }
     const newCostumer = new Customer({
       customer_name: name,
@@ -46,16 +44,18 @@ router.post("/new", NewCostumerValidation, async (req, res) => {
 });
 
 router.post("/login", async (req, res) => {
-  const { phone } = req.body;
   try {
+    const { phone } = req.body;
     const findUser = await Customer.findOne({
       customer_phone_no: phone,
     });
+    console.log(findUser);
     if (!findUser) {
       return res
         .status(200)
         .json({ success: false, message: "customer not found" });
     }
+    console.log("customer", findUser);
     res
       .status(200)
       .json({ success: true, message: "Customer found", data: findUser });
