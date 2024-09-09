@@ -95,7 +95,7 @@ router.post("/:chefId/orderlist/:mealId", async (req, res) => {
     }
 
     const updateOrder = await Orders.updateOne(
-      { customer_mealId: mealId },
+      { customer_mealId: mealId, meal_name: isMealExist },
       { isComplete: true }
     );
     console.log(updateOrder);

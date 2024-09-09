@@ -7,7 +7,7 @@ import {
 
 const router = express.Router();
 
-router.post("/new", NewCostumerValidation, async (req, res) => {
+router.post("/new", async (req, res) => {
   try {
     const { name, phone, email } = req.body;
     if (!name || !phone || !email) {
